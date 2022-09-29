@@ -1,10 +1,10 @@
 class Solution {
 public:
     int smallestEvenMultiple(int n) {
-        int ans = 0;
-        if(n%2==0)
-            return n;
-        else 
-            return 2*n;
+        return n << (n & 1);
     }
 };
+
+/*
+if n is even, return n << 0
+if n is odd, return n << 1 */
