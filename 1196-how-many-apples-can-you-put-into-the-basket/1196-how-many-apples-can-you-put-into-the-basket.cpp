@@ -2,12 +2,11 @@ class Solution {
 public:
     int maxNumberOfApples(vector<int>& weight) {
         sort(weight.begin(),weight.end());
-		int count=0,sum=0;
-		for(auto i:weight){
-			sum+=i;
-			if(sum<=5000)
-				count++;
+		int apples=0,units=0;
+		for(int i=0;i<weight.size() && units+weight[i]<=5000; i++){
+			apples++;
+			units+=weight[i];
 		}
-		return count;
+		return apples;
     }
 };
