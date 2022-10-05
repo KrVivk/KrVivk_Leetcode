@@ -1,17 +1,15 @@
 class Solution {
 public:
-    string toHex(int num) {
-         if(num == 0) 
-            return to_string(0);
-        unsigned int n = num;
-        string digits="0123456789abcdef";
-        string ans="";
-        while(n > 0){
-            int rem = n % 16;
-            ans+=digits[rem];
-            n /=16;
+    string toHex(int n) {
+          unordered_map<int, string> val { { 0, "0"}, { 1, "1" }, { 2, "2" }, { 3, "3" }, { 4, "4" }, { 5, "5" }, { 6, "6" }, { 7, "7" }, { 8, "8" }, { 9, "9" }, { 10, "a" }, { 11, "b" }, { 12, "c" }, { 13, "d" }, { 14, "e" },  { 15, "f" }}; 
+        if (n == 0) return "0";
+        unsigned int num = n; 
+        string ans = "";
+        while (num > 0) {
+            int x = num%16;
+            ans = val[x] + ans;
+            num /= 16;
         }
-        reverse(ans.begin(),ans.end());
         return ans;
     }
 };
