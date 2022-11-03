@@ -1,18 +1,20 @@
 class Solution {
 public:
-    vector<vector<int>> ans;
-    void rec(vector<int> &nums,int i,int n,vector<int> v){//recursive function
-        if(i==n){
-            ans.push_back(v);//insert v in answer 
-            return;
+    vector<vector<int>> subsets(vector<int>& nums) {
+        int len = nums.size();
+        
+        vector<vector<int>> ans;
+        
+        for(int mask = 0; mask < (1<<len); mask++){
+               vector<int> subset;
+             for(int i=0; i<len; i++){
+                  if((mask & 1<<i)){
+                      subset.push_back(nums[i]);   
+                  }
+             }
+                ans.push_back(subset);
         }
-        rec(nums,i+1,n,v);//element at current index not selected for v
-        v.push_back(nums[i]);
-        rec(nums,i+1,n,v);//element at current index selected for v
-    }
-    vector<vector<int>> subsets(vector<int>& nums){
-        vector<int> v;
-        rec(nums,0,nums.size(),v);
-        return ans;
+        
+           return ans;
     }
 };
