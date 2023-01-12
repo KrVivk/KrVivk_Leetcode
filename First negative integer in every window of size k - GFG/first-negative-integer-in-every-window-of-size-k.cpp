@@ -31,48 +31,32 @@ int main() {
 
 // function to find the first negative
 // integer in every window of size k
-vector<long long> printFirstNegativeInteger(long long int arr[],
-                                             long long int n, long long int k) {
-    // A Double Ended Queue, Di that will store indexes of
-    // useful array elements for the current window of size k.
-    // The useful elements are all negative integers.
-    deque<long long int> dq;
-    vector<long long> ans;
-
-    /* Process first k (or first window) elements of array */
-    long long int i;
-    for (i = 0; i < k; i++)
-        // Add current element at the rear of Di
-        // if it is a negative integer
-        if (arr[i] < 0) dq.push_back(i);
-
-    // Process rest of the elements, i.e., from arr[k] to arr[n-1]
-    for (; i < n; i++) {
-        // if Di is not empty then the element at the
-        // front of the queue is the first negative integer
-        // of the previous window
-        if (!dq.empty()) ans.push_back(arr[dq.front()]);
-
-        // else the window does not have a
-        // negative integer
-        else
-            ans.push_back(0);
-
-        // Remove the elements which are out of this window
-        while ((!dq.empty()) && dq.front() < (i - k + 1))
-            dq.pop_front(); // Remove from front of queue
-
-        // Add current element at the rear of Di
-        // if it is a negative integer
-        if (arr[i] < 0) dq.push_back(i);
-    }
-
-    // Print the first negative
-    // integer of last window
-    if (!dq.empty())
-        ans.push_back(arr[dq.front()]);
-    else
-        ans.push_back(0);
-
-    return ans;
+vector<long long> printFirstNegativeInteger(long long int A[],long long int N, long long int k) {
+   deque<long long int>q;
+   for(int i=0;i<k;i++){
+       if(A[i]<0){
+           q.push_back(i);
+       }
+   }
+   vector<long long >v;
+   for(int i=k;i<N;i++){
+       if(q.empty()){
+           v.push_back(0);
+       }else{
+           v.push_back(A[q.front()]);
+       }
+       if(!q.empty() and q.front()==(i-k)){
+           q.pop_front();
+       }
+       if(A[i]<0){
+           q.push_back(i);
+       }
+   }
+   
+   if(!q.empty()){
+       v.push_back(A[q.front()]);
+   }else{
+       v.push_back(0);
+   }
+   return v;
 }
