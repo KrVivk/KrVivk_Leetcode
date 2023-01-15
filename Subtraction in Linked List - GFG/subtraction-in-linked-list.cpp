@@ -85,134 +85,99 @@ struct Node
 */
 
 //You are required to complete this method
-Node* reverse(Node* head){
-    if(head == NULL || head->next == NULL){
-        return head;
+int length(Node* n)
+{
+    int ret = 0;
+    while(n)
+    {
+        ret++;
+        n = n->next;
     }
-    Node* curr = head->next;
-    head->next = NULL;
-    Node* temp = reverse(curr);
-    curr->next = head;
-    return temp;
+    return ret;
 }
+
+Node* reverse(Node *head) 
+// this function reverses the linked list
+{
+    Node * prev = NULL;
+    Node * current = head;
+    Node * next;
+    
+    while (current != NULL) 
+    { 
+        next = current->next;     // storing next node
+        current->next = prev;     // linking current node to previous
+        prev = current;           // updating prev
+        current = next;           // updating current
+    }
+    
+    return prev; 
+}
+
 Node* subLinkedList(Node* l1, Node* l2)
 {
-    while(l1 && l1->data == 0 ){
+    while(l1 && l1->data == 0)
         l1 = l1->next;
-    }
-    while(l2 && l2->data == 0 ){
+        // removing trailing zeroes from l1
+    
+    while(l2 && l2->data == 0)
         l2 = l2->next;
-    }
-    if(!l1){
-        return l2;
-    }
-    if(!l2){
-        return l1;
-    }
-    int lenght1 = 0 ;
-    int lenght2 = 0;
-    Node* ptr = l1;
-    Node* qtr = l2;
-    while(ptr){
-        lenght1++;
-        ptr = ptr->next;
-    }
-    while(qtr){
-        lenght2++;
-        qtr = qtr->next;
-    }
-    ptr = l1;
-    qtr = l2;
-    bool same = false;
-    if(lenght1 == lenght2){
-        while(ptr && qtr){
-            if(ptr->data != qtr->data){
-                break;
-            }
-            ptr = ptr->next;
-            qtr = qtr->next;
+        // removing trailing zeroes from l2
+    
+    int n1 = length(l1);
+    int n2 = length(l2);
+    
+    if(n2>n1)
+        swap(l1,l2);
+        // making sure l1 list has the bigger number
+    
+    if(n1==n2)
+    {
+        Node *t1=l1, *t2=l2;
+        while(t1->data == t2->data )
+        // finding which number is greater
+        {
+            t1 = t1->next;
+            t2 = t2->next;
+            
+            if(!t1) return new Node(0);
+            // returning zero if both numbers are same
         }
-        if(!ptr && !qtr){
-            Node* node = new Node(0);
-            node->next = NULL;
-            return node;
-        }
-        else{
-            if(ptr->data > qtr->data){
-                same = true;
-            }
-        }
+        if(t2->data > t1->data)
+            swap(l1,l2);
+            // making sure l1 list has the bigger number
     }
+    
     l1 = reverse(l1);
     l2 = reverse(l2);
-    if(lenght1 > lenght2){
-        ptr = l1;
-        qtr = l2;
-    }
-    else if(lenght1 < lenght2){
-        ptr = l2;
-        qtr = l1;
-    }
-    else{
-        if(same){
-            ptr = l1;
-            qtr = l2;
+    
+    Node* res = NULL;
+    Node* t1 = l1, *t2 = l2;
+    while(t1)
+    {
+        int small = 0;
+        if(t2) small = t2->data;
+        // 'small' holds the next digit of number to be subtracted
+        
+        if( t1->data < small )
+        {
+            t1->next->data = t1->next->data - 1;
+            t1->data = t1->data + 10;
+            // taking carry
         }
-        else{
-            ptr = l2;
-            qtr = l1;
-        }
+        
+        Node* n = new Node( t1->data - small );
+        // creating new node for storing difference
+        n->next = res;
+        res = n;
+        
+        t1 = t1->next;
+        if(t2) t2 = t2->next;
     }
-    int carry = 0;
-    while(ptr && qtr){
-        ptr->data = ptr->data - carry;
-        if(ptr->data > qtr->data){
-            ptr->data = ptr->data - qtr->data;
-            carry = 0 ;
-        }
-        else{
-            if(ptr->data == qtr->data){
-                ptr->data = ptr->data - qtr->data;
-                carry = 0 ;
-            }
-            else{
-                ptr->data = (ptr->data + 10) - qtr->data;
-                carry = 1;
-            }
-        }
-        ptr = ptr->next;
-        qtr = qtr->next;
-    }
-    while(ptr){
-        if(carry){
-            if(ptr->data < carry){
-                ptr->data = 10 - carry;
-                carry = 1;
-            }
-            else{
-                ptr->data = ptr->data - carry;
-                carry = 0 ;
-            }
-        }
-        ptr = ptr->next;
-    }
-    Node* ans = NULL;
-    if(lenght1 > lenght2){
-        ans = reverse(l1);
-    }
-    else if(lenght2 > lenght1){
-        ans = reverse(l2);
-    }
-    else{
-        if(same){
-            ans = reverse(l1);
-        }
-        else{
-            ans = reverse(l2);
-        }
-    }
-    while(ans->next && ans->data == 0){
-        ans = ans->next;
-    }
-    return ans;
+    
+    while(res->next && res->data==0)
+        res = res->next;
+        // removing trailing zeroes from result list
+    
+    return res;
 }
