@@ -136,7 +136,6 @@ vector<int> diagonal(Node *root)
         {
             if(p->left)
                 Q.push(p->left);
-            //cout<<p->data<<" ";
             diagonalNode.push_back(p->data);
             p=p->right;
         }
