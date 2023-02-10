@@ -114,12 +114,13 @@ struct Node
          10
       /      \ 
    20       30 */
-int countLeaves(struct Node* root)
+int countLeaves(Node* root)
 {
-  if (root==NULL)
+  // Your code here
+  if(!root)
     return 0;
   if (root->left == NULL && root->right == NULL)
    return 1; 
- return  countLeaves(root->left) + 
-  countLeaves(root->right);
+   
+   return countLeaves(root->left) + countLeaves(root->right);
 }
